@@ -1,19 +1,15 @@
 <template>
   <div>
-    <h2 class="mb-4">{{ item?.title }}</h2>
-    <p class="text">{{ item?.content }}</p>
-    <p class="text-muted">{{ item?.createdAt }}</p>
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.content }}</p>
+    <p class="text-muted">{{ post.createdAt }}</p>
     <hr class="my-4" />
     <div class="row g-2">
-      <div v-if="item?.prevId" class="col-auto">
-        <button class="btn btn-outline-dark" @click="goDetailPage(item.prevId)">
-          이전글
-        </button>
+      <div class="col-auto">
+        <button class="btn btn-outline-dark">이전글</button>
       </div>
-      <div v-if="item?.nextId" class="col-auto">
-        <button class="btn btn-outline-dark" @click="goDetailPage(item.nextId)">
-          다음글
-        </button>
+      <div class="col-auto">
+        <button class="btn btn-outline-dark">다음글</button>
       </div>
       <div class="col-auto me-auto"></div>
       <div class="col-auto">
@@ -25,44 +21,68 @@
         </button>
       </div>
       <div class="col-auto">
-        <button class="btn btn-outline-danger" @click="removePost">삭제</button>
+        <button class="btn btn-outline-danger" @click="remove">삭제</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import {onBeforeRouteUpdate, useRoute, useRouter} from "vue-router";
-import {ref} from "vue";
-import {deletePost, getPostById} from "@/api/posts.js";
+import { useRouter } from 'vue-router';
+import {deletePost, getPostById} from '@/api/posts';
+import { ref } from 'vue';
 
-const route = useRoute();
+const props = defineProps({
+  id: Number,
+});
+
 const router = useRouter();
-const id = route.params.id;
-const item = ref({
+// const id = route.params.id;
+/**
+ * ref
+ * 장) 객체 할당 가능
+ * 단) form.value.title, form.value.content
+ * 장) 일관성
+ *
+ * reactvie
+ * 단) 객체 할당 불가능
+ * 장) form.title, form.content
+ */
+const post = ref({
   title: null,
-  content: null
+  content: null,
+  createdAt: null
 });
-const fetchItem = targetId => {
-  item.value = getPostById(targetId);
+
+const fetchPost = async () => {
+  try {
+    const { data } = await getPostById(props.id);
+    setPost(data);
+  } catch (error) {
+    console.log(error)
+  }
 };
-fetchItem(id);
+const setPost = ({ title, content, createdAt }) => {
+  post.value.title = title;
+  post.value.content = content;
+  post.value.createdAt = createdAt;
+}
+fetchPost();
 
-onBeforeRouteUpdate((to, from) => {
-  fetchItem(to.params.id);
-});
-
-const goListPage = () => router.push({name: 'PostList'});
-const goDetailPage = targetId => router.push({ name: 'PostDetail', params: {id, targetId }});
-const goEditPage = () => router.push({ name: 'PostEdit', params: { id }});
-const removePost = () => {
-  if (confirm('삭제 하시겠습니까?')) {
-    deletePost(id);
-    goListPage();
+const remove = async () => {
+  try {
+    if (confirm('삭제 하시겠습니까?') === false) {
+      return;
+    }
+    await deletePost(props.id);
+    await router.push({ name: 'PostList' });
+  } catch (error) {
+    console.log(error);
   }
 }
+const goListPage = () => router.push({ name: 'PostList' });
+const goEditPage = () =>
+    router.push({ name: 'PostEdit', params: { id: props.id } });
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

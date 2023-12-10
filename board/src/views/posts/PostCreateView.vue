@@ -2,7 +2,7 @@
   <div>
     <h2>게시글 등록</h2>
     <hr class="my-4" />
-    <form @submit.prevent="addForm">
+    <form @submit.prevent="save">
       <div class="mb-3">
         <label for="title" class="form-label"> 제목 </label>
         <input
@@ -35,25 +35,27 @@
 </template>
 
 <script setup>
-import { createPost } from "@/api/posts.js";
-import { ref } from "vue";
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
+import {createPost} from "@/api/posts.js";
+import {ref} from "vue";
 
 const router = useRouter();
 const form = ref({
   title: null,
   content: null
 });
-const goListPage = () => router.push({ name: 'PostList' });
-const addForm = () => {
-  const data = {
-    title: form.value.title,
-    content: form.value.content,
-    createdAt: new Date()
-  };
-  createPost(data);
-  goListPage();
+const save = async () => {
+  try {
+    await createPost({
+      ...form.value,
+      createPost: Date.now()
+    });
+    await router.push({ name: 'PostList' });
+  } catch (error) {
+    console.log(error);
+  }
 }
+const goListPage = () => router.push({ name: 'PostList' });
 </script>
 
 <style lang="scss" scoped>
