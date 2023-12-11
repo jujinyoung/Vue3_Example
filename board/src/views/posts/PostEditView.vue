@@ -34,7 +34,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 import {ref} from "vue";
-import {getPostById, updatePost} from "@/api/posts.js";
+import {createPost, getPostById, updatePost} from "@/api/posts.js";
 
 const route = useRoute();
 const router = useRouter();
@@ -61,7 +61,10 @@ fetchPost();
 
 const edit = async () => {
   try {
-    await updatePost(id, { ...form.value });
+    await updatePost(id, {
+      ...form.value
+    });
+
     await router.push({ name: 'PostDetail', params: { id } });
   } catch (error) {
     console.log(error);
