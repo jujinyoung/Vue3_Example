@@ -9,10 +9,10 @@
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
-        <li><RouterLink to="/login" class="login text-decoration-none"><i class="bi bi-box-arrow-in-right"></i>로그인</RouterLink></li>
+        <li><RouterLink :to="{ name: 'login' }" class="login text-decoration-none"><i class="bi bi-box-arrow-in-right"></i>로그인</RouterLink></li>
 <!--        <a href="javascript:;" class="login text-decoration-none" style="margin-left: 20px"> <i class="bi bi-box-arrow-out-right"></i>로그아웃</a>-->
-        <li><RouterLink to="/mypage" class="mypage text-decoration-none" style="margin-left: 20px"><i class="bi bi-person"></i>마이페이지</RouterLink></li>
-        <li><RouterLink to="/cart" class="cart text-decoration-none" style="margin-left: 20px"><i class="bi bi-cart"></i>장바구니</RouterLink></li>
+        <li><RouterLink :to="{ name: 'myPage' }" class="myPage text-decoration-none" style="margin-left: 20px"><i class="bi bi-person"></i>마이페이지</RouterLink></li>
+        <li><RouterLink :to="{ name: 'cart' }" class="cart text-decoration-none" style="margin-left: 20px"><i class="bi bi-cart"></i>장바구니</RouterLink></li>
       </div>
     </header>
     <TheGnbMenu></TheGnbMenu>
@@ -44,7 +44,7 @@ import TheGnbMenu from "@/layouts/TheGnbMenu.vue";
 .login, .logout {
   margin-left: 100px;
 }
-.logout, .login, .mypage, .cart {
+.logout, .login, .myPage, .cart {
   color: black;
 }
 li {

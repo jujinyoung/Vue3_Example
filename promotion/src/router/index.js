@@ -12,22 +12,22 @@ const routes = [
         component: HomeView
     },
     {
-        path: '/',
+        path: '/login',
         name: 'login',
         component: LoginView
     },
     {
-        path: '/',
-        name: 'mypage',
+        path: '/myPage',
+        name: 'myPage',
         component: MyPageView
     },
     {
-        path: '/',
+        path: '/cart',
         name: 'cart',
         component: CartView
     },
     {
-        path: '/',
+        path: '/event',
         name: 'event',
         component: EventView
     }
