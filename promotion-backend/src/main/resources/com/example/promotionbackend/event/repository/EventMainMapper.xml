@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.promotionbackend.event.repository.EventMainMapper">
+
+    <select id="findAll" parameterType="com.example.promotionbackend.event.dto.PagingDto" resultType="EventMainEntity">
+        SELECT * FROM EventDisplay
+        <where>
+            <if test="type != null">AND type = #{type}</if>
+        </where>
+        LIMIT 1, #{limit}
+    </select>
+</mapper>

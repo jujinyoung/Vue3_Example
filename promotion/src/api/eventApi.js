@@ -1,5 +1,9 @@
 import axios from "axios";
 
+const instance = axios.create({
+    baseURL: 'http://localhost:8080'
+});
+
 export function getEventList(params) {
-    return axios.get(`http://localhost:5000/event`, { params });
+    return instance.get(`/event`, { params });
 }
