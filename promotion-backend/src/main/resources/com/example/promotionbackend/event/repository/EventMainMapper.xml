@@ -7,8 +7,16 @@
     <select id="findAll" parameterType="com.example.promotionbackend.event.dto.PagingDto" resultType="EventMainEntity">
         SELECT * FROM EventDisplay
         <where>
-            <if test="type != null">AND type = #{type}</if>
+            <if test="type != null and type != ''" >AND type = #{type}</if>
         </where>
-        LIMIT 1, #{limit}
+        ORDER BY #{sort} #{order}
+        LIMIT #{startRow}, #{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        SELECT COUNT(*) FROM EventDisplay
+        <where>
+            <if test="type != null and type != ''" >AND type = #{type}</if>
+        </where>
     </select>
 </mapper>

@@ -6,16 +6,16 @@
     </div>
     <ul class="nav nav-fill">
       <li class="nav-item">
-        <a @click="clickTabs(null)" :class="params.type === null ? 'active' : ''" class="nav-link" href="#">전체</a>
+        <a @click="clickTabs(null)" :class="pagingDto.type === null ? 'active' : ''" class="nav-link" href="#">전체</a>
       </li>
       <li class="nav-item">
-        <a @click="clickTabs('01')" :class="params.type === '01' ? 'active' : ''" class="nav-link" href="#">체험/리뷰</a>
+        <a @click="clickTabs('01')" :class="pagingDto.type === '01' ? 'active' : ''" class="nav-link" href="#">체험/리뷰</a>
       </li>
       <li class="nav-item">
-        <a @click="clickTabs('02')" :class="params.type === '02' ? 'active' : ''" class="nav-link" href="#">쇼핑혜택</a>
+        <a @click="clickTabs('02')" :class="pagingDto.type === '02' ? 'active' : ''" class="nav-link" href="#">쇼핑혜택</a>
       </li>
       <li class="nav-item">
-        <a @click="clickTabs('03')" :class="params.type === '03' ? 'active' : ''" class="nav-link" href="#">제휴혜택</a>
+        <a @click="clickTabs('03')" :class="pagingDto.type === '03' ? 'active' : ''" class="nav-link" href="#">제휴혜택</a>
       </li>
     </ul>
   </div>
@@ -30,20 +30,20 @@
     </li>
   </ul>
   <ul class="pagination justify-content-center">
-    <li :class="{disabled: !(params._page > 1) }" class="page-item">
-      <a class="page-link" @click="--params._page" href="#" aria-label="Previous">
+    <li :class="{disabled: !(pagingDto._page > 1) }" class="page-item">
+      <a class="page-link" @click="--pagingDto._page" href="#" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <li v-for="page in pageCount" :key="page" class="page-item" :class="params._page === page ? 'active' : ''">
-      <a @click="params._page = page"
+    <li v-for="page in pageCount" :key="page" class="page-item" :class="pagingDto._page === page ? 'active' : ''">
+      <a @click="pagingDto._page = page"
          class="page-link"
          href="#">
         {{ page }}
       </a>
     </li>
-    <li :class="{disabled: !(params._page !== pageCount) }" class="page-item">
-      <a class="page-link" @click="++params._page" href="#" aria-label="Next">
+    <li :class="{disabled: !(pagingDto._page !== pageCount) }" class="page-item">
+      <a class="page-link" @click="++pagingDto._page" href="#" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
@@ -56,7 +56,7 @@ import {computed, ref, watchEffect} from "vue";
 import {getEventList} from "@/api/eventApi";
 
 const events = ref([]);
-const params = ref({
+const pagingDto = ref({
   _sort: 'id',
   _order: 'asc',
   _limit: 3,
@@ -65,13 +65,13 @@ const params = ref({
 });
 
 const totalCount = ref(0);
-const pageCount = computed(() => Math.ceil(totalCount.value / params.value._limit));
+const pageCount = computed(() => Math.ceil(totalCount.value / pagingDto.value._limit));
 
 const fetchEvents = async () => {
   try {
-    const { data, headers } = await getEventList(params.value);
-    events.value = data;
-    totalCount.value = headers['x-total-count'];
+    const { data } = await getEventList(pagingDto.value);
+    events.value = data.data;
+    totalCount.value = data.totalCount;
   } catch (error) {
     console.log(error);
   }
@@ -79,8 +79,8 @@ const fetchEvents = async () => {
 watchEffect(() => fetchEvents());
 
 const clickTabs = (value) => {
-  params.value.type = value;
-  params.value._page = 1;
+  pagingDto.value.type = value;
+  pagingDto.value._page = 1;
 }
 </script>
 

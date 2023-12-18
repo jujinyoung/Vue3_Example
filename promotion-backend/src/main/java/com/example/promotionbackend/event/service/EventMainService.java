@@ -17,4 +17,8 @@ public class EventMainService {
     public List<EventMainEntity> findAllEvents(PagingDto pagingDto) {
         return eventMainMapper.findAll(pagingDto);
     }
+
+    public int getTotalCount(String type) {
+        return eventMainMapper.getTotalCount(type);
+    }
 }
