@@ -16,6 +16,7 @@ public class EventMainResDto {
     private String endAt;
     private String type;
     private String imgPath;
+    private String url;
 
     public EventMainResDto(EventMainEntity eventMainEntity) {
         this.id = eventMainEntity.getId();
@@ -24,5 +25,6 @@ public class EventMainResDto {
         this.endAt = eventMainEntity.getEndAt();
         this.type = eventMainEntity.getType();
         this.imgPath = eventMainEntity.getImgPath();
+        this.url = eventMainEntity.getUrl();
     }
 }

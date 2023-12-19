@@ -1,5 +1,5 @@
 <template>
-  <div class="event-item">
+  <div @click="goDetailPage(props.id)" class="event-item">
     <img :src="imgPath" alt="이벤트 이미지">
     <span class="sticker">{{ eventType }}</span>
     <div>
@@ -10,23 +10,37 @@
 </template>
 
 <script setup>
-import {computed} from "vue";
+import {computed, provide} from "vue";
+import router from "@/router";
 
 const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  },
   title: {
-    type: String
+    type: String,
+    required: true
   },
   type: {
-    type: String
+    type: String,
+    required: true
   },
   startAt: {
-    type: String
+    type: String,
+    required: true
   },
   endAt: {
-    type: String
+    type: String,
+    required: true
   },
   imgPath: {
-    type: String
+    type: String,
+    required: true
+  },
+  url: {
+    type: String,
+    required: true
   }
 })
 
@@ -35,7 +49,16 @@ const eventType = computed(() => {
   else if (props.type === '02') return '쇼핑혜택';
   else if (props.type === '03') return '제휴혜택';
   else return '오류'
-})
+});
+provide('url', props.url);
+const goDetailPage = id => {
+  router.push({
+    name: 'eventDetail',
+    params: {
+      id
+    }
+  });
+}
 </script>
 
 <style scoped>

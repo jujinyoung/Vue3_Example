@@ -21,11 +21,13 @@
   </div>
   <ul class="event-container">
     <li class="pt-3" v-for="event in events" :key="event.id">
-      <EventItem :title="event.title"
+      <EventItem :id="event.id"
+                 :title="event.title"
                  :type="event.type"
                  :start-at="event.startAt"
                  :end-at="event.endAt"
-                 :img-path="event.imgPath">
+                 :img-path="event.imgPath"
+                 :url="event.url">
       </EventItem>
     </li>
   </ul>

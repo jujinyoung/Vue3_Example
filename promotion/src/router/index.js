@@ -6,6 +6,7 @@ import CartView from "@/views/mypage/CartView.vue";
 import EventView from "@/views/event/EventView.vue";
 import JoinView from "@/views/member/JoinView.vue";
 import ErrorPageView from "@/views/ErrorPageView.vue";
+import EventDetailView from "@/views/event/EventDetailView.vue";
 
 const routes = [
     {
@@ -37,6 +38,13 @@ const routes = [
         path: '/event',
         name: 'event',
         component: EventView
+    },
+    {
+        path: '/event/:id',
+        name: 'eventDetail',
+        component: EventDetailView,
+        // props: route => ({ id: route.params.id, url: route.params.url })
+        // props: true
     },
     {
         path: '/:pathMatch(.*)*',
