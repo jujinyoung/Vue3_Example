@@ -5,14 +5,15 @@
 </template>
 
 <script setup>
-import {inject, onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
+import {useCounterStore} from "@/stores/counter";
 
 const eventDetail = ref(null);
 
 onMounted(async () => {
   try {
-    const url = inject('url');
-    const component = await import(url);
+    const store = useCounterStore();
+    const component = await import(store.url);
     eventDetail.value = component.default;
   } catch (error) {
     console.log(error);

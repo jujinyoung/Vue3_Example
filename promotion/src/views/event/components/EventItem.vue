@@ -12,6 +12,7 @@
 <script setup>
 import {computed, provide} from "vue";
 import router from "@/router";
+import {useCounterStore} from "@/stores/counter";
 
 const props = defineProps({
   id: {
@@ -50,8 +51,11 @@ const eventType = computed(() => {
   else if (props.type === '03') return '제휴혜택';
   else return '오류'
 });
-provide('url', props.url);
+
 const goDetailPage = id => {
+  const store = useCounterStore();
+  store.setUrl(props.url);
+
   router.push({
     name: 'eventDetail',
     params: {
