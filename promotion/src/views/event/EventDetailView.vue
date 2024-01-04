@@ -5,10 +5,10 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import {onMounted, shallowRef} from "vue";
 import {useCounterStore} from "@/stores/counter";
 
-const eventDetail = ref(null);
+const eventDetail = shallowRef(null);
 
 onMounted(async () => {
   try {
